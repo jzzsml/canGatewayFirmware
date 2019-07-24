@@ -1,3 +1,28 @@
+<<<<<<< HEAD
+/DebugConfig/*
+/Listings/*
+/Objects/*
+/bin/*
+*.crf
+*.o
+*.d
+*.TMP
+*.dep
+*.bak
+*.htm
+*.hex
+*.map
+*.lnp
+*.scvd
+*.uvoptx.*
+*.uvguix.*
+*.uvgui.*
+JLinkSettings.ini
+JLinkLog.txt
+/trace.dat
+/Auto_FcArm_Cmd.inp
+.vscode/*
+=======
 # Prerequisites
 *.d
 
@@ -50,3 +75,4 @@ modules.order
 Module.symvers
 Mkfile.old
 dkms.conf
+>>>>>>> bc65142249b84c1fe802a8319d8133d31c1cb9c8
