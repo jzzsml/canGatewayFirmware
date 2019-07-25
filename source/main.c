@@ -67,29 +67,29 @@ void print_menu();
 void CAN_IRQHandler()
 {
 	uint8_t IntStatus;
-	uint32_t data1;
+	uint32_t data2;
 	/* get interrupt status
 	 * Note that: Interrupt register CANICR will be reset after read.
 	 * So function "CAN_IntGetStatus" should be call only one time
 	 */
-	IntStatus = CAN_IntGetStatus(LPC_CAN2);
+	IntStatus = CAN_IntGetStatus(LPC_CAN1);
 	//check receive interrupt
 	if((IntStatus>>0)&0x01)
 	{
-		CAN_ReceiveMsg(LPC_CAN2,&RXMsg);
+		CAN_ReceiveMsg(LPC_CAN1,&RXMsg);
 		PrintMessage(&RXMsg);
 		CANRxCount++; //count success received message
 		//increase data for next TX Message
 		TXMsg.id ++;
-		data1 = (TXMsg.dataA[0])|(((TXMsg.dataA[1]))<<8)|((TXMsg.dataA[2])<<16)|((TXMsg.dataA[3])<<24);
-		if(data1 == 0xFFFFFFFF) data1 = 0;
-		else data1++;
-		*((uint8_t *) &TXMsg.dataA[0])= *((uint8_t *) &TXMsg.dataB[0])= data1 & 0x000000FF;
-		*((uint8_t *) &TXMsg.dataA[1])= *((uint8_t *) &TXMsg.dataB[1])=(data1 & 0x0000FF00)>>8;;
-		*((uint8_t *) &TXMsg.dataA[2])= *((uint8_t *) &TXMsg.dataB[2])=(data1 & 0x00FF0000)>>16;
-		*((uint8_t *) &TXMsg.dataA[3])= *((uint8_t *) &TXMsg.dataB[3])=(data1 & 0xFF000000)>>24;
+		data2 = (TXMsg.dataA[0])|(((TXMsg.dataA[1]))<<8)|((TXMsg.dataA[2])<<16)|((TXMsg.dataA[3])<<24);
+		if(data2 == 0xFFFFFFFF) data2 = 0;
+		else data2++;
+		*((uint8_t *) &TXMsg.dataA[0])= *((uint8_t *) &TXMsg.dataB[0])= data2 & 0x000000FF;
+		*((uint8_t *) &TXMsg.dataA[1])= *((uint8_t *) &TXMsg.dataB[1])=(data2 & 0x0000FF00)>>8;;
+		*((uint8_t *) &TXMsg.dataA[2])= *((uint8_t *) &TXMsg.dataB[2])=(data2 & 0x00FF0000)>>16;
+		*((uint8_t *) &TXMsg.dataA[3])= *((uint8_t *) &TXMsg.dataB[3])=(data2 & 0xFF000000)>>24;
 
-		CAN_SendMsg(LPC_CAN1, &TXMsg);
+		CAN_SendMsg(LPC_CAN2, &TXMsg);
 	}
 }
 
@@ -231,10 +231,10 @@ int c_entry(void) { /* Main Program */
 	*/
 	CAN_config();
 	
-	_DBG_("CAN test Bypass Mode function...");
+	_DBG_("CAN test FullCAN Mode function...");
 	_DBG_("Press '1' to initialize CAN message...");_DBG_("");
 	while(_DG !='1');
-	CAN_SetAFMode(LPC_CANAF,CAN_AccBP);
+	CAN_SetAFMode(LPC_CANAF,CAN_eFCAN);
 	CAN_InitMessage();
 	PrintMessage(&TXMsg);
 	_DBG_("Message ID and data will be increased continuously...");
@@ -245,7 +245,7 @@ int c_entry(void) { /* Main Program */
 	/** To test Bypass Mode: we send infinite messages to CAN2 and check
 	 * receive process via COM1
 	 */
-	CAN_SendMsg(LPC_CAN1, &TXMsg);
+	CAN_SendMsg(LPC_CAN2, &TXMsg);
 
 	while (1);
 }

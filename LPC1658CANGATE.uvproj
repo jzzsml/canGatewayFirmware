@@ -409,6 +409,11 @@
               <FileType>1</FileType>
               <FilePath>.\source\main.c</FilePath>
             </File>
+            <File>
+              <FileName>lpc17xx_pll_config.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\source\lpc17xx_pll_config.c</FilePath>
+            </File>
           </Files>
         </Group>
         <Group>
