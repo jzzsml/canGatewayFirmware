@@ -11,6 +11,10 @@
 * All rights reserved.
 *
 ***********************************************************************
+* Modified by Sergei Gridasov,  july 2019
+***********************************************************************
+
+***********************************************************************
 * Software that is described herein is for illustrative purposes only
 * which provides customers with programming information regarding the
 * products. This software is supplied "AS IS" without any warranties.
@@ -28,12 +32,16 @@
 //#include <stdarg.h>
 #include "lpc17xx_uart.h"
 
-#define USED_UART_DEBUG_PORT	0
+#define USED_UART_DEBUG_PORT	3
 
 #if (USED_UART_DEBUG_PORT==0)
 #define DEBUG_UART_PORT	LPC_UART0
 #elif (USED_UART_DEBUG_PORT==1)
 #define DEBUG_UART_PORT	LPC_UART1
+#elif (USED_UART_DEBUG_PORT==2)
+#define DEBUG_UART_PORT	LPC_UART2
+#elif (USED_UART_DEBUG_PORT==3)
+#define DEBUG_UART_PORT	LPC_UART3
 #endif
 
 #define _DBG(x)	 	_db_msg(DEBUG_UART_PORT, x)

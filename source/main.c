@@ -27,6 +27,7 @@
 #include "lpc17xx_pinsel.h"
 #include "debug_frmwrk.h"
 
+#define __BUILD_WITH_EXAMPLE__
 /* Example group ----------------------------------------------------------- */
 /** @defgroup CAN_test_bypass_mode	CAN_test_bypass_mode
  * @ingroup CAN_Examples

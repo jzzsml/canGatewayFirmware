@@ -11,6 +11,9 @@
 * All rights reserved.
 *
 ***********************************************************************
+* Modified by Sergei Gridasov,  july 2019
+***********************************************************************
+***********************************************************************
 * Software that is described herein is for illustrative purposes only
 * which provides customers with programming information regarding the
 * products. This software is supplied "AS IS" without any warranties.
@@ -267,7 +270,7 @@ void debug_frmwrk_init(void)
 	PINSEL_ConfigPin(&PinCfg);
 	PinCfg.Pinnum = 3;
 	PINSEL_ConfigPin(&PinCfg);
-#elif #if (USED_UART_DEBUG_PORT==1)
+#elif (USED_UART_DEBUG_PORT==1)
 	/*
 	 * Initialize UART1 pin connect
 	 */
@@ -278,6 +281,30 @@ void debug_frmwrk_init(void)
 	PinCfg.Portnum = 0;
 	PINSEL_ConfigPin(&PinCfg);
 	PinCfg.Pinnum = 16;
+	PINSEL_ConfigPin(&PinCfg);
+#elif (USED_UART_DEBUG_PORT==2)
+	/*
+	 * Initialize UART2 pin connect
+	 */
+	PinCfg.Funcnum = 1;
+	PinCfg.OpenDrain = 0;
+	PinCfg.Pinmode = 0;
+	PinCfg.Pinnum = 10;
+	PinCfg.Portnum = 0;
+	PINSEL_ConfigPin(&PinCfg);
+	PinCfg.Pinnum = 11;
+	PINSEL_ConfigPin(&PinCfg);
+#elif (USED_UART_DEBUG_PORT==3)
+	/*
+	 * Initialize UART3 pin connect
+	 */
+	PinCfg.Funcnum = 3;
+	PinCfg.OpenDrain = 0;
+	PinCfg.Pinmode = 0;
+	PinCfg.Pinnum = 25;
+	PinCfg.Portnum = 0;
+	PINSEL_ConfigPin(&PinCfg);
+	PinCfg.Pinnum = 26;
 	PINSEL_ConfigPin(&PinCfg);
 #endif
 
