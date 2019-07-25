@@ -39,7 +39,7 @@ uint8_t menu[]=
 	"CAN bypass demo \n\r"
 	"\t - MCU: LPC17xx \n\r"
 	"\t - Core: ARM CORTEX-M3 \n\r"
-	"\t - Communicate via: UART0 - 115200 bps \n\r"
+	"\t - Communicate via: UART3 - 115200 bps \n\r"
 	"Use two CAN peripherals: CAN1 and CAN2 to communicate\n\r"
 	"This example used to test Bypass mode\n\r"
 	"*******************************************************************************\n\r";
@@ -93,7 +93,7 @@ void CAN_IRQHandler()
 
 /*-------------------------PRIVATE FUNCTIONS----------------------------*/
 /*********************************************************************//**
- * @brief		Print Message via COM1
+ * @brief		Print Message via COM3
  * param[in]	msg: point to CAN_MSG_Type object that will be printed
  * @return 		none
  **********************************************************************/

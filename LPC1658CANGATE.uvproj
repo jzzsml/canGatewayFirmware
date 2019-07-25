@@ -430,9 +430,9 @@
               <FilePath>.\driver\source\lpc17xx_pinsel.c</FilePath>
             </File>
             <File>
-              <FileName>lpc17xx_libcfg_default.c</FileName>
+              <FileName>lpc17xx_uart.c</FileName>
               <FileType>1</FileType>
-              <FilePath>.\driver\source\lpc17xx_libcfg_default.c</FilePath>
+              <FilePath>.\driver\source\lpc17xx_uart.c</FilePath>
             </File>
             <File>
               <FileName>lpc17xx_can.c</FileName>
@@ -440,14 +440,9 @@
               <FilePath>.\driver\source\lpc17xx_can.c</FilePath>
             </File>
             <File>
-              <FileName>lpc17xx_uart.c</FileName>
+              <FileName>debug_frmwrk.c</FileName>
               <FileType>1</FileType>
-              <FilePath>.\driver\source\lpc17xx_uart.c</FilePath>
-            </File>
-            <File>
-              <FileName>lpc17xx_systick.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>.\driver\source\lpc17xx_systick.c</FilePath>
+              <FilePath>.\driver\source\debug_frmwrk.c</FilePath>
             </File>
           </Files>
         </Group>
