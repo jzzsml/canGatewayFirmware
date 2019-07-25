@@ -25,6 +25,7 @@
 #include "lpc17xx_can.h"
 #include "lpc17xx_libcfg.h"
 #include "lpc17xx_pinsel.h"
+#include "lpc17xx_pll_config.h"
 #include "debug_frmwrk.h"
 
 #define __BUILD_WITH_EXAMPLE__
@@ -128,6 +129,48 @@ void PrintMessage(CAN_MSG_Type* CAN_Msg)
 	_DBG_("");
 }
 
+
+
+/*********************************************************************//**
+ * @brief		Initialize CAN1 and CAN2
+ * @param[in]	None
+ * @return		None
+ **********************************************************************/
+void CAN_config(void) {
+	PINSEL_CFG_Type PinCfg;
+	/* Pin configuration
+	 * CAN1: select P0.0 as RD1 (46), P0.1 as TD1 (47)
+	 * CAN2: select P0.4 as RD2 (81), P0.5 as TD2 (80)
+	 */
+	PinCfg.Funcnum = 1;
+	PinCfg.OpenDrain = 0;
+	PinCfg.Pinmode = 0;
+	PinCfg.Pinnum = 0;
+	PinCfg.Portnum = 0;
+	PINSEL_ConfigPin(&PinCfg);
+	PinCfg.Pinnum = 1;
+	PINSEL_ConfigPin(&PinCfg);
+
+	PinCfg.Funcnum = 2;
+	PinCfg.Pinnum = 4;
+	PinCfg.Portnum = 0;
+	PINSEL_ConfigPin(&PinCfg);
+	PinCfg.Pinnum = 5;
+	PINSEL_ConfigPin(&PinCfg);
+
+	//Initialize CAN1 & CAN2
+	CAN_Init(LPC_CAN1, 125000);
+	CAN_Init(LPC_CAN2, 125000);
+
+	//Enable Interrupt
+	CAN_IRQCmd(LPC_CAN2, CANINT_RIE, ENABLE);
+
+	//Enable CAN Interrupt
+	NVIC_EnableIRQ(CAN_IRQn);
+}
+
+
+
 /*********************************************************************//**
  * @brief		Initialize transmit and receive message for Bypass operation
  * @param[in]	none
@@ -166,9 +209,14 @@ void print_menu()
  * @return 		int
  **********************************************************************/
 int c_entry(void) { /* Main Program */
-	PINSEL_CFG_Type PinCfg;
-
-	/* Initialize debug via UART0
+		
+	/* Initialize PLL
+	 * MCU freq - 100MHz
+	 * periphery freq – 25MHz
+	 */
+	init_clocks_pll(TRUE);
+	
+	/* Initialize debug via UART3
 	 * – 115200bps
 	 * – 8 data bit
 	 * – No parity
@@ -177,37 +225,12 @@ int c_entry(void) { /* Main Program */
 	 */
 	debug_frmwrk_init();
 	print_menu();
-
-	/* Pin configuration
-	 * CAN1: select P0.0 as RD1 (46), P0.1 as TD1 (47)
-	 * CAN2: select P0.4 as RD2 (81), P0.5 as TD2 (80)
-	 */
-	PinCfg.Funcnum = 1;
-	PinCfg.OpenDrain = 0;
-	PinCfg.Pinmode = 0;
-	PinCfg.Pinnum = 0;
-	PinCfg.Portnum = 0;
-	PINSEL_ConfigPin(&PinCfg);
-	PinCfg.Pinnum = 1;
-	PINSEL_ConfigPin(&PinCfg);
-
-	PinCfg.Funcnum = 2;
-	PinCfg.Pinnum = 4;
-	PinCfg.Portnum = 0;
-	PINSEL_ConfigPin(&PinCfg);
-	PinCfg.Pinnum = 5;
-	PINSEL_ConfigPin(&PinCfg);
-
-	//Initialize CAN1 & CAN2
-	CAN_Init(LPC_CAN1, 125000);
-	CAN_Init(LPC_CAN2, 125000);
-
-	//Enable Interrupt
-	CAN_IRQCmd(LPC_CAN2, CANINT_RIE, ENABLE);
-
-	//Enable CAN Interrupt
-	NVIC_EnableIRQ(CAN_IRQn);
-
+	
+	/* Initialize CAN1 and CAN2
+	* - 125000bps
+	*/
+	CAN_config();
+	
 	_DBG_("CAN test Bypass Mode function...");
 	_DBG_("Press '1' to initialize CAN message...");_DBG_("");
 	while(_DG !='1');

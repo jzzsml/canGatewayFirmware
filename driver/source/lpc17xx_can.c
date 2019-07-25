@@ -153,7 +153,7 @@ void CAN_Init(LPC_CAN_TypeDef *CANx, uint32_t baudrate)
 	}
 	else
 	{
-		/* Turn on power and clock for CAN1 */
+		/* Turn on power and clock for CAN2 */
 		CLKPWR_ConfigPPWR(CLKPWR_PCONP_PCAN2, ENABLE);
 		/* Set clock divide for CAN2 */
 	}
