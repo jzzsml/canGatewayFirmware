@@ -179,8 +179,8 @@ int c_entry(void) { /* Main Program */
 	print_menu();
 
 	/* Pin configuration
-	 * CAN1: select P0.0 as RD1. P0.1 as TD1
-	 * CAN2: select P2.7 as RD2, P2.8 as RD2
+	 * CAN1: select P0.0 as RD1 (46), P0.1 as TD1 (47)
+	 * CAN2: select P0.4 as RD2 (81), P0.5 as TD2 (80)
 	 */
 	PinCfg.Funcnum = 1;
 	PinCfg.OpenDrain = 0;
@@ -191,10 +191,11 @@ int c_entry(void) { /* Main Program */
 	PinCfg.Pinnum = 1;
 	PINSEL_ConfigPin(&PinCfg);
 
-	PinCfg.Pinnum = 7;
-	PinCfg.Portnum = 2;
+	PinCfg.Funcnum = 2;
+	PinCfg.Pinnum = 4;
+	PinCfg.Portnum = 0;
 	PINSEL_ConfigPin(&PinCfg);
-	PinCfg.Pinnum = 8;
+	PinCfg.Pinnum = 5;
 	PINSEL_ConfigPin(&PinCfg);
 
 	//Initialize CAN1 & CAN2

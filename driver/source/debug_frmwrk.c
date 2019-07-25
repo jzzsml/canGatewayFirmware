@@ -261,7 +261,11 @@ void debug_frmwrk_init(void)
 #if (USED_UART_DEBUG_PORT==0)
 	/*
 	 * Initialize UART0 pin connect
+	 * UART0: select P0.2 as TXD0 (98), P0.3 as RXD0 (99)
 	 */
+		
+	 
+	 
 	PinCfg.Funcnum = 1;
 	PinCfg.OpenDrain = 0;
 	PinCfg.Pinmode = 0;
@@ -273,6 +277,7 @@ void debug_frmwrk_init(void)
 #elif (USED_UART_DEBUG_PORT==1)
 	/*
 	 * Initialize UART1 pin connect
+	 * UART1: select P0.15 as TXD1 (62), P0.16 as RXD1 (63)
 	 */
 	PinCfg.Funcnum = 1;
 	PinCfg.OpenDrain = 0;
@@ -285,6 +290,7 @@ void debug_frmwrk_init(void)
 #elif (USED_UART_DEBUG_PORT==2)
 	/*
 	 * Initialize UART2 pin connect
+	 * UART2: select P0.10 as TXD2 (48), P0.11 as RXD2 (49)
 	 */
 	PinCfg.Funcnum = 1;
 	PinCfg.OpenDrain = 0;
@@ -297,6 +303,7 @@ void debug_frmwrk_init(void)
 #elif (USED_UART_DEBUG_PORT==3)
 	/*
 	 * Initialize UART3 pin connect
+	 * UART3: select P0.25 as TXD3 (7), P0.26 as RXD3 (6)
 	 */
 	PinCfg.Funcnum = 3;
 	PinCfg.OpenDrain = 0;
