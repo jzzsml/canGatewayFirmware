@@ -1,6 +1,6 @@
 # canGateway_firmware
 
-## It is firmware for LPC1768.
+#### It is firmware for LPC1768.
 MC works as CAN gateway, receive some data to the CAN1 and transmit the same date without any changing.
 
 
@@ -20,4 +20,5 @@ __Note:__
 Acceptance filter configured as Bypass mode.
 	
 __TODO:__ 
-configure Acceptance filter as FullCAN to implement real GATEWAY
+
+To configure Acceptance filter as FullCAN to implement real GATEWAY.
