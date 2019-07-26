@@ -31,7 +31,7 @@
 
 #define __BUILD_WITH_EXAMPLE__
 /* Example group ----------------------------------------------------------- */
-/** @defgroup CAN_test_bypass_mode	CAN_test_bypass_mode
+/** @defgroup CAN_test_gateway_mode	CAN_test_gateway_mode
  * @ingroup CAN_Examples
  * @{
  */
@@ -39,7 +39,7 @@
 uint8_t menu[]=
 	"*******************************************************************************\n\r"
 	"Hello NXP Semiconductors \n\r"
-	"CAN bypass demo \n\r"
+	"CAN GATEWAY demo \n\r"
 	"\t - MCU: LPC17xx \n\r"
 	"\t - Core: ARM CORTEX-M3 \n\r"
 	"\t - Communicate via: UART3 - 115200 bps \n\r"
@@ -48,7 +48,7 @@ uint8_t menu[]=
 	"*******************************************************************************\n\r";
 
 /** CAN variable definition **/
-CAN_MSG_Type Msg; // messages for test Bypass mode
+CAN_MSG_Type Msg; // messages for test 
 
 /************************** PRIVATE FUNCTIONS *************************/
 void CAN_IRQHandler(void);
@@ -161,7 +161,7 @@ void CAN_config(void) {
 
 
 /*********************************************************************//**
- * @brief		Initialize transmit and receive message for Bypass operation
+ * @brief		Initialize transmit and receive message for Gateway operation
  * @param[in]	none
  * @return 		none
  **********************************************************************/
