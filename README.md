@@ -15,8 +15,9 @@ Use two CAN peripherals:
 - CAN1: select P0.0 as RD1 (46), P0.1 as TD1 (47) is used as receiver - 125000 bps
 - CAN2: select P0.4 as RD2 (81), P0.5 as TD2 (80) is used as transmitter - 125000 bps
 
-Note:
+__Note:__
 
-	Acceptance filter configured as Bypass mode.
+Acceptance filter configured as Bypass mode.
 	
-  TODO: configure Acceptance filter as FullCAN to implement real GATEWAY
+__TODO:__ 
+configure Acceptance filter as FullCAN to implement real GATEWAY
