@@ -21,4 +21,6 @@ Acceptance filter configured as Bypass mode.
 	
 __TODO:__ 
 
-To configure Acceptance filter as FullCAN to implement real GATEWAY.
+..to configure Acceptance filter as FullCAN to implement real GATEWAY.
+
+
