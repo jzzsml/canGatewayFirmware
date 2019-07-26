@@ -141,7 +141,6 @@ static void can_SetBaudrate (LPC_CAN_TypeDef *CANx, uint32_t baudrate)
  *********************************************************************/
 void CAN_Init(LPC_CAN_TypeDef *CANx, uint32_t baudrate)
 {
-	uint32_t temp;
 	uint16_t i;
 	CHECK_PARAM(PARAM_CANx(CANx));
 
@@ -168,7 +167,7 @@ void CAN_Init(LPC_CAN_TypeDef *CANx, uint32_t baudrate)
 	//CANx->CMR = CAN_CMR_AT | CAN_CMR_RRB | CAN_CMR_CDO;
 	CANx->CMR = (1<<1)|(1<<2)|(1<<3);
 	/* Read to clear interrupt pending in interrupt capture register */
-	temp = CANx->ICR;
+
 	CANx->MOD = 0;// Return Normal operating
 
 	//Reset CANAF value
@@ -709,7 +708,7 @@ CAN_ERROR CAN_LoadFullCANEntry (LPC_CAN_TypeDef* CANx, uint16_t id)
 	uint32_t buf0=0, buf1=0, buf2=0;
 	uint32_t tmp0=0, tmp1=0, tmp2=0;
 	int16_t cnt1=0, cnt2=0, bound1=0, total=0;
-	uint32_t abc;
+
 
 	CHECK_PARAM(PARAM_CANx(CANx));
 
@@ -779,7 +778,7 @@ CAN_ERROR CAN_LoadFullCANEntry (LPC_CAN_TypeDef* CANx, uint16_t id)
 		bound1 = (CANAF_FullCAN_cnt - 1) >> 1;
 		while (cnt1 <= bound1)
 		{
-			abc = (LPC_CANAF_RAM->mask[cnt1] >> 16)& 0xE7FF;
+
 			/* Loop through standard existing IDs */
 			if (((LPC_CANAF_RAM->mask[cnt1] >> 16) & 0xE7FF) > (id & 0xE7FF))
 			{
@@ -787,7 +786,7 @@ CAN_ERROR CAN_LoadFullCANEntry (LPC_CAN_TypeDef* CANx, uint16_t id)
 				break;
 			}
 
-			abc = LPC_CANAF_RAM->mask[cnt1] & 0x0000E7FF;
+
 			if ((LPC_CANAF_RAM->mask[cnt1] & 0x0000E7FF) > (id & 0xE7FF))
 			{
 				cnt2 = cnt1 * 2 + 1;

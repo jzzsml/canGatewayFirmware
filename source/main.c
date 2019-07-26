@@ -1,15 +1,16 @@
 /**********************************************************************
-* $Id$		can_test_bypass_mode.c			2010-05-21
+* $Id$		main.c			2010-05-21
 *//**
-* @file		can_test_bypass_mode.c
-* @brief	This example used to test Bypass mode
+* @file		main.c
+* @brief	This example used to test Gateway mode
 * @version	2.0
 * @date		21. May. 2010
 * @author	NXP MCU SW Application Team
 *
 * Copyright(C) 2010, NXP Semiconductor
 * All rights reserved.
-*
+***********************************************************************
+* Modified by Sergei Gridasov,  july 2019
 ***********************************************************************
 * Software that is described herein is for illustrative purposes only
 * which provides customers with programming information regarding the
@@ -43,12 +44,11 @@ uint8_t menu[]=
 	"\t - Core: ARM CORTEX-M3 \n\r"
 	"\t - Communicate via: UART3 - 115200 bps \n\r"
 	"Use two CAN peripherals: CAN1 and CAN2 to communicate\n\r"
-	"This example used to test Bypass mode\n\r"
+	"This example used to test GATEWAY mode\n\r"
 	"*******************************************************************************\n\r";
 
 /** CAN variable definition **/
-CAN_MSG_Type TXMsg, RXMsg; // messages for test Bypass mode
-uint32_t CANRxCount, CANTxCount = 0;
+CAN_MSG_Type Msg; // messages for test Bypass mode
 
 /************************** PRIVATE FUNCTIONS *************************/
 void CAN_IRQHandler(void);
@@ -60,14 +60,14 @@ void print_menu();
 
 /*----------------- INTERRUPT SERVICE ROUTINES --------------------------*/
 /*********************************************************************//**
- * @brief		CAN_IRQ Handler, control receive message operation
+ * @brief			CAN_IRQ Handler, To test Gateway  Mode: we receive to CAN1 and check
+ *						receive process via COM3,then transmit received to CAN1 date to CAN2
  * param[in]	none
  * @return 		none
  **********************************************************************/
 void CAN_IRQHandler()
 {
 	uint8_t IntStatus;
-	uint32_t data2;
 	/* get interrupt status
 	 * Note that: Interrupt register CANICR will be reset after read.
 	 * So function "CAN_IntGetStatus" should be call only one time
@@ -76,20 +76,9 @@ void CAN_IRQHandler()
 	//check receive interrupt
 	if((IntStatus>>0)&0x01)
 	{
-		CAN_ReceiveMsg(LPC_CAN1,&RXMsg);
-		PrintMessage(&RXMsg);
-		CANRxCount++; //count success received message
-		//increase data for next TX Message
-		TXMsg.id ++;
-		data2 = (TXMsg.dataA[0])|(((TXMsg.dataA[1]))<<8)|((TXMsg.dataA[2])<<16)|((TXMsg.dataA[3])<<24);
-		if(data2 == 0xFFFFFFFF) data2 = 0;
-		else data2++;
-		*((uint8_t *) &TXMsg.dataA[0])= *((uint8_t *) &TXMsg.dataB[0])= data2 & 0x000000FF;
-		*((uint8_t *) &TXMsg.dataA[1])= *((uint8_t *) &TXMsg.dataB[1])=(data2 & 0x0000FF00)>>8;;
-		*((uint8_t *) &TXMsg.dataA[2])= *((uint8_t *) &TXMsg.dataB[2])=(data2 & 0x00FF0000)>>16;
-		*((uint8_t *) &TXMsg.dataA[3])= *((uint8_t *) &TXMsg.dataB[3])=(data2 & 0xFF000000)>>24;
-
-		CAN_SendMsg(LPC_CAN2, &TXMsg);
+		CAN_ReceiveMsg(LPC_CAN1,&Msg);
+		PrintMessage(&Msg);
+		CAN_SendMsg(LPC_CAN2, &Msg);
 	}
 }
 
@@ -177,19 +166,12 @@ void CAN_config(void) {
  * @return 		none
  **********************************************************************/
 void CAN_InitMessage(void) {
-	TXMsg.format = EXT_ID_FORMAT;
-	TXMsg.id = 0x00001234;
-	TXMsg.len = 8;
-	TXMsg.type = DATA_FRAME;
-	TXMsg.dataA[0] = TXMsg.dataA[1] = TXMsg.dataA[2] = TXMsg.dataA[3] = 0x00000000;
-	TXMsg.dataB[0] = TXMsg.dataB[1] = TXMsg.dataB[2] = TXMsg.dataB[3] = 0x00000000;
-
-	RXMsg.format = 0x00;
-	RXMsg.id = 0x00;
-	RXMsg.len = 0x00;
-	RXMsg.type = 0x00;
-	RXMsg.dataA[0] = RXMsg.dataA[1] = RXMsg.dataA[2] = RXMsg.dataA[3] = 0x00000000;
-	RXMsg.dataB[0] = RXMsg.dataB[1] = RXMsg.dataB[2] = RXMsg.dataB[3] = 0x00000000;
+	Msg.format = 0x00;
+	Msg.id = 0x00000000;
+	Msg.len = 0;
+	Msg.type = 0x00;
+	Msg.dataA[0] = Msg.dataA[1] = Msg.dataA[2] = Msg.dataA[3] = 0x00000000;
+	Msg.dataB[0] = Msg.dataB[1] = Msg.dataB[2] = Msg.dataB[3] = 0x00000000;
 }
 
 /*********************************************************************//**
@@ -231,22 +213,11 @@ int c_entry(void) { /* Main Program */
 	*/
 	CAN_config();
 	
-	_DBG_("CAN test FullCAN Mode function...");
-	_DBG_("Press '1' to initialize CAN message...");_DBG_("");
+	_DBG_("CAN test Gateway Mode function...");
+	_DBG_("Press '1' to start CAN gateway operation");_DBG_("");
 	while(_DG !='1');
-	CAN_SetAFMode(LPC_CANAF,CAN_eFCAN);
+	CAN_SetAFMode(LPC_CANAF,CAN_AccBP);
 	CAN_InitMessage();
-	PrintMessage(&TXMsg);
-	_DBG_("Message ID and data will be increased continuously...");
-
-	_DBG_("Press '2' to start CAN operation...");
-	while(_DG !='2');
-
-	/** To test Bypass Mode: we send infinite messages to CAN2 and check
-	 * receive process via COM1
-	 */
-	CAN_SendMsg(LPC_CAN2, &TXMsg);
-
 	while (1);
 }
 
